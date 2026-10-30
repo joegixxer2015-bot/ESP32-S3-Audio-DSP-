@@ -21,4 +21,7 @@ jobs:
 
       - name: Compile Sketch
         run: |
-          arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi ./ESP32_S3_Audio_DSP
+          # ค้นหาโฟลเดอร์ที่มีไฟล์ .ino อยู่ข้างในแบบอัตโนมัติ
+          SKETCH_DIR=$(find . -name "*.ino" -exec dirname {} \; | head -n 1)
+          echo "Found sketch directory: $SKETCH_DIR"
+          arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi "$SKETCH_DIR"
