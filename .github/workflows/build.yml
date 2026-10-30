@@ -21,7 +21,7 @@ jobs:
 
       - name: Compile Sketch
         run: |
-          # ค้นหาโฟลเดอร์ที่มีไฟล์ .ino อยู่ข้างในแบบอัตโนมัติ
+          # สั่งค้นหาโฟลเดอร์ที่มีไฟล์ .ino ด้านในอัตโนมัติแบบแม่นยำ
           SKETCH_DIR=$(find . -name "*.ino" -exec dirname {} \; | head -n 1)
           echo "Found sketch directory: $SKETCH_DIR"
           arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi "$SKETCH_DIR"
