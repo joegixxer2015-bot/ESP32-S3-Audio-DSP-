@@ -12,7 +12,6 @@ jobs:
           curl -fsSL https://downloads.arduino.cc/arduino-cli/arduino-cli_0.35.3_Linux_64bit.tar.gz | tar -xz
           sudo mv arduino-cli /usr/local/bin/
           arduino-cli config init
-          arduino-cli config set library.enable_unsafe_install true
       - name: Install ESP32 Core
         run: |
           arduino-cli core update-index
@@ -21,4 +20,9 @@ jobs:
         run: |
           SKETCH_DIR=$(find . -name "*.ino" -exec dirname {} \; | head -n 1)
           echo "Found sketch directory: $SKETCH_DIR"
-          arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi "$SKETCH_DIR"
+          arduino-cli compile --fqbn esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi --output-dir ./build "$SKETCH_DIR"
+      - name: Upload Firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: S3-N16R8-Firmware
+          path: ./build/*.bin
